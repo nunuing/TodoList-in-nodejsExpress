@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<script src="//code.jquery.com/jquery-3.7.0.min.js"></script>
+
+<head>
+  <meta charset="UTF-8" content="width=device-width,initial-scale=1">
+  <title>To-do List</title>
+  <style>
+    * {
+      font-family: IBMPlexSans;
+    }
+
+    .title {
+      display: block;
+      margin: 5% 0 0 0;
+      font-family: IBMPlexSans;
+      font-size: 96px;
+      text-align: center;
+      color: #0063bf;
+    }
+
+    .subtitle {
+      display: block;
+      margin: 0 0 0 0;
+      font-family: IBMPlexSerif;
+      font-size: 40px;
+      text-align: center;
+      color: #797979;
+    }
+
+    .ListRect {
+      width: 1065px;
+      height: 100vw;
+      margin: 5% auto 0 auto;
+      border-radius: 28px 28px 0px 0px;
+      background-color: rgba(217, 217, 217, 0.5);
+    }
+
+    .div1 {
+      width: auto;
+      height: 100vh;
+      background-color: white;
+    }
+
+    .button {
+      font-family: IBMPlexMono;
+      font-size: 60px;
+      font-weight: 500;
+      color: #000000;
+      text-decoration: none;
+      border: none;
+    }
+
+    #plus {
+      margin: 0 20px 0 88%;
+    }
+
+    #minus {
+      margin: 0 1% 0 0;
+    }
+
+    .lists {
+      margin-top: 5%;
+      margin-left: 8%;
+      display: flex;
+    }
+
+    .checkbox {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      border: solid 6px #000000;
+      display: inline-block;
+    }
+
+    .check {
+      width: 70px;
+      height: 70px;
+      margin-top: -10px;
+      margin-left: -55px;
+
+    }
+
+    .content {
+      margin-left: 20px;
+      width: 727px;
+      font-family: IBMPlexSans;
+      font-size: 50px;
+      font-weight: 600;
+      color: #000000;
+      display: inline;
+      vertical-align: text-bottom;
+    }
+
+    .edit {
+      width: 40px;
+      height: 40px;
+    }
+
+    #input_modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      top: 20%;
+      left: 30%;
+      background-color: rgba(255, 255, 255, 0.65);
+      margin: 15% auto;
+      padding: 20px;
+      width: 40%;
+      height: 30%;
+    }
+
+    .todo_inputs {
+      display: flex;
+      justify-content: center;
+    }
+
+    #input_content {
+      width: 60%;
+      height: 30%;
+      padding: 15px;
+      font-size: 20px;
+      background-color: transparent;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      border-bottom: 3px dashed darkgray;
+      margin-right: 30px;
+    }
+
+    #input_check {
+      display: none;
+      margin-top: 10px;
+    }
+    input[id="input_check"] + label{
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      margin-top: 8px;
+      border: 5px solid rgb(0, 142, 250);
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    input[id="input_check"]:checked + label{
+      background-color: rgb(0, 142, 250);
+      
+    }
+    #input_close, 
+    #input_submit {
+      color: black;
+      background-color: transparent;
+      font-size: 25px;
+      font-weight: bold;
+      margin: 5px;
+      border: none;
+    }
+
+    #input_close:hover,
+    #input_close:focus,
+    #input_submit:hover,
+    #input_submit:focus {
+      color: rgb(0, 142, 250);
+      text-decoration: none;
+      cursor: pointer;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div class="title_bar">
+    <span class="title">To-Do List</span>
+    <span class="subtitle">Make your life Effective</span>
+  </div>
+  <div>
+    <div class="ListRect">
+      <div>
+        <br>
+        <a class="button" id="plus" onclick="openModal()">+</a>
+        <a class="button" id="minus">-</a>
+      </div>
+      <div id="input_modal">
+        <form style="margin-top: 15%;">
+          <p class="todo_inputs">
+            <input type="text" id="input_content" name="content">
+            <input type="checkbox" id="input_check" name="check">
+            <label for="input_check"></label>
+          </p>
+          <p style="text-align: center;">
+            <input id="input_submit" type="submit" value="add">
+            <input id="input_close" type="reset" value="cancle" onclick="closeModal()">
+          </p>
+        </form>
+      </div>
+      <div class="lists" th:each="comp : ${comps}">
+        <span class="checkbox"></span>
+        <img class="check" src="./images/check-symbol.png" alt="check"
+          style="visibility: hidden;">
+        <div class="content"></div>
+        <img class="edit" src="./images/pencil.png"alt="edit button" style="visibility:hidden">
+      </div>
+    </div>
+  </div>
+</body>
+<script>
+  const modal = document.getElementById("input_modal");
+  const openModalBtn = document.getElementById("plus");
+  const closeModalBtn = document.getElementById("input_close");
+
+  function openModal() {
+    modal.style.display = "block";
+  }
+  function closeModal() {
+    modal.style.display = "none";
+  }
+</script>
+
+</html>
