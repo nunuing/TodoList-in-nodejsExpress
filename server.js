@@ -25,8 +25,7 @@ app.get('/', (req, res) => {
 app.get('/lists', (req, res) => {
     db_conn.query('SELECT * FROM LIST', (err, rows) => {
         if(err) throw err;
-        console.log(rows);
-        res.send(rows);
+        res.render('/static/home.html', {postList:result});         //html로 변수 전달
     })
 });
 

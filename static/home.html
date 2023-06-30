@@ -208,7 +208,7 @@
           </p>
         </form>
       </div>
-      <div class="lists" th:each="comp : ${comps}">
+      <div class="lists">
         <input type="checkbox" id="done_check" onchange="done_change()">
         <label for="done_check"></label>
         <div class="content"></div>
@@ -218,6 +218,10 @@
   </div>
 </body>
 <script>
+  window.onload = function(){
+    const request =  new XMLHttpRequest();
+    request.open('get', '/lists');
+  }
   const modal = document.getElementById("input_modal");
   const openModalBtn = document.getElementById("plus");
   const closeModalBtn = document.getElementById("input_close");
