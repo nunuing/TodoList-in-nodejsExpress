@@ -198,7 +198,7 @@
         <ul class="lists">
           <% let isDone=false %>
             <% if(rows[i].DONE===1) { isDone=true } %>
-                <input type="checkbox" checked = <%= isDone %> value="<%=isDone %>" name="done_check" >
+                <input type="checkbox" value="<%=isDone %>" name="done_check" >
                 <label for="done_check"></label>
                 <div class="content">
                   <%= rows[i].CONTENT %>
@@ -215,7 +215,7 @@
   for(var i = 0; i < listCheck.length; i++){
     console.log("listCheck[i].value : " + listCheck[i].value);
     if(listCheck[i].value === "true"){
-      console.log("is true");
+      listCheck[i].checked = true;
     }
     else{
       listCheck[i].checked = false;
