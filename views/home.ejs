@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" content="width=device-width,initial-scale=1">
-
+  <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
   <title>To-do List</title>
   <style>
     * {
@@ -69,11 +69,11 @@
       display: flex;
     }
 
-    input[id="done_check"] {
+    input[name="done_check"] {
       display: none;
     }
 
-    input[id="done_check"]+label {
+    input[name="done_check"]+label {
       width: 50px;
       height: 50px;
       border-radius: 12px;
@@ -81,7 +81,7 @@
       display: inline-block;
     }
 
-    input[id="done_check"]:checked+label {
+    input[name="done_check"]:checked+label {
       background-color: rgb(0, 142, 250);
     }
 
@@ -148,25 +148,6 @@
       margin-right: 30px;
     }
 
-    input[id="input_done"] {
-      display: none;
-      margin-top: 10px;
-    }
-
-    input[id="input_done"]+label {
-      display: inline-block;
-      width: 30px;
-      height: 30px;
-      margin-top: 8px;
-      border: 5px solid rgb(0, 142, 250);
-      border-radius: 10px;
-      cursor: pointer;
-    }
-
-    input[id="input_done"]:checked+label {
-      background-color: rgb(0, 142, 250);
-    }
-
     #input_close,
     #input_submit {
       color: gray;
@@ -215,22 +196,36 @@
       </div>
       <% for(var i=0; i < rows.length; i++) { %>
         <ul class="lists">
-          <input type="checkbox" id="done_check" onchange="done_change()">
-          <label for="done_check"></label>
-          <div class="content"><%= rows[i].CONTENT %></div>
-          <img class="edit" src="images/pencil.png" alt="edit button">
+          <% let isDone=false %>
+            <% if(rows[i].DONE===1) { isDone=true } %>
+                <input type="checkbox" checked = <%= isDone %> value="<%=isDone %>" name="done_check" >
+                <label for="done_check"></label>
+                <div class="content">
+                  <%= rows[i].CONTENT %>
+                </div>
+                <img class="edit" src="images/pencil.png" alt="edit button">
         </ul>
-      <% } %>
+        <% } %>
     </div>
   </div>
 </body>
 <script>
-
+ $(document).ready(function() {
+  var listCheck = $("input[name=done_check]");
+  for(var i = 0; i < listCheck.length; i++){
+    console.log("listCheck[i].value : " + listCheck[i].value);
+    if(listCheck[i].value === "true"){
+      console.log("is true");
+    }
+    else{
+      listCheck[i].checked = false;
+    }
+    console.log("listCheck[i].checked : " + listCheck[i].checked);
+  }
+ });
   const modal = document.getElementById("input_modal");
   const openModalBtn = document.getElementById("plus");
   const closeModalBtn = document.getElementById("input_close");
-  const doneCheckBox = document.getElementById("done_check");
-
 
   function openModal() {
     modal.style.display = "block";
@@ -238,9 +233,20 @@
   function closeModal() {
     modal.style.display = "none";
   }
-  function done_change() {
-    console.log("checked");
-  }
+
+  const doneCheck = document.getElementsByName("done_check");
+  doneCheck.forEach(function (value) {
+    value.addEventListener('change', (event) => {
+      const value = event.target.checked;
+      console.log(value);
+      if (value) {
+        //db에 update
+      }
+    });
+  });
+
+  
+
 </script>
 
 </html>
