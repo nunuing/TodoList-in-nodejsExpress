@@ -14,9 +14,8 @@ const jsonParser = bodyparser.json();                   //body-parser를 사용�
 const nunjucks = require('nunjucks');
 
 app.set('view engine', 'ejs');                 //view engine이 사용할 template engine
-app.set('views', './static');
-nunjucks.configure('static', {express:app});    //nunjucks.config 첫번째 인자 : html을 담아 둘 폴더의 이름, 두번째 인자 : express 속성에 app을 연결
-app.use(express.static('static'));          //정적파일 제공
+app.set('views', './views');
+app.use(express.static('views'));          //정적파일 제공
 
 
 app.get('/', (req, res) => {
