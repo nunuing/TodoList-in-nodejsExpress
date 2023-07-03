@@ -15,17 +15,18 @@ const nunjucks = require('nunjucks');
 
 app.set('view engine', 'html');                 //app에 view engine(key값) : html(value값)인 property 추가
 nunjucks.configure('static', {express:app});    //nunjucks.config 첫번째 인자 : html을 담아 둘 폴더의 이름, 두번째 인자 : express 속성에 app을 연결
-app.use(bodyparser.urlencoded({extends:true})); //중첩객체 표시 여부 -> true : 중첩 객체 포함, false : 중첩객체는 그냥 object로 나타냄
+//app.use(bodyparser.urlencoded({extends:true})); //중첩객체 표시 여부 -> true : 중첩 객체 포함, false : 중첩객체는 그냥 object로 나타냄
 
-//get 정의
+// //get 정의
+// app.get('/', (req, res) => {
+//     res.sendFile(__dirname + "/static/home.html");
+// });
+
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + "/static/home.html");
-});
-
-app.get('/lists', (req, res) => {
     db_conn.query('SELECT * FROM LIST', (err, rows) => {
         if(err) throw err;
-        res.render('/static/home.html', {postList:result});         //html로 변수 전달
+        res.render("home.html", {rows:rows});         //html로 변수 전달
+        console.log(rows[0].CONTENT);
     })
 });
 
