@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8" content="width=device-width,initial-scale=1">
-  
+
   <title>To-do List</title>
   <style>
-    
     * {
       font-family: IBMPlexSans;
     }
@@ -213,15 +213,14 @@
           </p>
         </form>
       </div>
-      <% for(var i = 0; i < 5; i++){ %>
-        <h1>안녕</h1>
+      <% for(var i=0; i < rows.length; i++) { %>
+        <ul class="lists">
+          <input type="checkbox" id="done_check" onchange="done_change()">
+          <label for="done_check"></label>
+          <div class="content"><%= rows[i].CONTENT %></div>
+          <img class="edit" src="images/pencil.png" alt="edit button">
+        </ul>
       <% } %>
-      <ul class="lists">
-        <input type="checkbox" id="done_check" onchange="done_change()">
-        <label for="done_check"></label>
-        <div class="content"></div>
-        <img class="edit" src="images/pencil.png" alt="edit button">
-      </ul>
     </div>
   </div>
 </body>
@@ -232,7 +231,7 @@
   const closeModalBtn = document.getElementById("input_close");
   const doneCheckBox = document.getElementById("done_check");
 
-  
+
   function openModal() {
     modal.style.display = "block";
   }

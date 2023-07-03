@@ -13,16 +13,14 @@ const jsonParser = bodyparser.json();                   //body-parser를 사용�
 
 const nunjucks = require('nunjucks');
 
-app.set('view engine', 'ejs');                 //view engine이 사용할 template engine
+app.set('view engine', 'ejs');                          //view engine이 사용할 template engine
 app.set('views', './views');
-app.use(express.static('views'));          //정적파일 제공
-
+app.use(express.static('views'));                       //정적파일 제공
 
 app.get('/', (req, res) => {
     db_conn.query('SELECT * FROM LIST', (err, rows) => {
         if(err) throw err;
-        res.render("home.ejs", {rows:rows});         //html로 변수 전달
-        console.log(rows[0].CONTENT);
+        res.render("home.ejs", {rows:rows});            //rows 변수 안에 rows를 담아서 home.ejs로 전달
     })
 });
 
