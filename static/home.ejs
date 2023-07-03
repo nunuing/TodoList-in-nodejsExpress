@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<script src="//code.jquery.com/jquery-3.7.0.min.js"></script>
-
+<html>
 <head>
   <meta charset="UTF-8" content="width=device-width,initial-scale=1">
   <title>To-do List</title>
@@ -15,6 +13,7 @@
       margin: 5% 0 0 0;
       font-family: IBMPlexSans;
       font-size: 96px;
+      font-weight: bold;
       text-align: center;
       color: rgb(0, 142, 250);
     }
@@ -23,7 +22,8 @@
       display: block;
       margin: 0 0 0 0;
       font-family: IBMPlexSerif;
-      font-size: 40px;
+      font-size: 43px;
+      font-weight: 500;
       text-align: center;
       color: #797979;
     }
@@ -53,10 +53,12 @@
 
     #plus {
       margin: 0 20px 0 88%;
+      color: #373737;
     }
 
     #minus {
       margin: 0 1% 0 0;
+      color: #373737;
     }
 
     .lists {
@@ -82,14 +84,15 @@
     }
 
     .content {
+      margin-top: 8px;
       margin-left: 20px;
       width: 727px;
       font-family: IBMPlexSans;
-      font-size: 50px;
+      font-size: 40px;
       font-weight: 600;
-      color: #000000;
+      color: #373737;
       display: inline;
-      vertical-align: text-bottom;
+      vertical-align: middle;
     }
 
     .edit {
@@ -208,10 +211,13 @@
           </p>
         </form>
       </div>
+      <% for(var i = 0; i < 5; i++){ %>
+        <h1>Hello</h1>
+      <% } %>
       <ul class="lists">
         <input type="checkbox" id="done_check" onchange="done_change()">
-        <label for="done_check">{{rows.CONTENT}}</label>
-        <div class="content"></div>
+        <label for="done_check"></label>
+        <div class="content">{{rows[0].CONTENT}}</div>
         <img class="edit" src="images/pencil.png" alt="edit button">
       </ul>
     </div>
