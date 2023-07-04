@@ -73,7 +73,7 @@
       display: none;
     }
 
-    input[name="done_check"]+label {
+    input[name="done_check"] + label{
       width: 50px;
       height: 50px;
       border-radius: 12px;
@@ -81,7 +81,7 @@
       display: inline-block;
     }
 
-    input[name="done_check"]:checked+label {
+    input[name="done_check"]:checked + label  {
       background-color: rgb(0, 142, 250);
     }
 
@@ -196,42 +196,35 @@
       </div>
       <% for(var i=0; i < rows.length; i++) { %>
         <ul class="lists">
-          <% let isDone=false %>
-                <input type="checkbox" value="<%= rows[i].DONE %>" name="done_check" >
-                <label for="done_check"></label>
-                <div class="content">
-                  <%= rows[i].CONTENT %>
-                </div>
-                <img class="edit" src="images/pencil.png" alt="edit button">
+          <input type="checkbox" value="<%= rows[i].DONE %>" name="done_check" id="done_check<%= i %>">
+          <label for="done_check<%= i %>"></label>
+            <div class="content">
+              <%= rows[i].CONTENT %>
+            </div>
+            <img class="edit" src="images/pencil.png" alt="edit button">
         </ul>
         <% } %>
     </div>
   </div>
 </body>
 <script>
- $(document).ready(function() {
-  var doneCheck = $("input[name=done_check]");
-  for(var i = 0; i < doneCheck.length; i++){
-    if(doneCheck[i].value === "1"){
-      console.log("is true");
-      doneCheck[i].checked = true;
+  $(document).ready(function () {
+    var doneCheck = $("input[name=done_check]");
+    for (var i = 0; i < doneCheck.length; i++) {
+      if (doneCheck[i].value === "1") {
+        console.log("is true");
+        doneCheck[i].checked = true;
+      }
+      else {
+        doneCheck[i].checked = false;
+      }
     }
-    else{
-      doneCheck[i].checked = false;
-    }
-    // doneCheck[i].addEventListener('change', (event) => {
-    //   const value = event.target.checked;
-    //   console.log(value);
-    //   if (value) {
-    //     //db에 update
-    //   }
-    // });
-  }});
-
+  });
+  
   const modal = document.getElementById("input_modal");
   const openModalBtn = document.getElementById("plus");
   const closeModalBtn = document.getElementById("input_close");
-
+  
   function openModal() {
     modal.style.display = "block";
   }
@@ -239,10 +232,7 @@
     modal.style.display = "none";
   }
 
-  const doneCheck = document.getElementsByName("done_check");
-  
 
-  
 
 </script>
 
