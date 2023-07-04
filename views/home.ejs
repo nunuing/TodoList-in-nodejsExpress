@@ -197,8 +197,7 @@
       <% for(var i=0; i < rows.length; i++) { %>
         <ul class="lists">
           <% let isDone=false %>
-            <% if(rows[i].DONE===1) { isDone=true } %>
-                <input type="checkbox" value="<%=isDone %>" name="done_check" >
+                <input type="checkbox" value="<%= rows[i].DONE %>" name="done_check" >
                 <label for="done_check"></label>
                 <div class="content">
                   <%= rows[i].CONTENT %>
@@ -211,18 +210,24 @@
 </body>
 <script>
  $(document).ready(function() {
-  var listCheck = $("input[name=done_check]");
-  for(var i = 0; i < listCheck.length; i++){
-    console.log("listCheck[i].value : " + listCheck[i].value);
-    if(listCheck[i].value === "true"){
-      listCheck[i].checked = true;
+  var doneCheck = $("input[name=done_check]");
+  for(var i = 0; i < doneCheck.length; i++){
+    if(doneCheck[i].value === "1"){
+      console.log("is true");
+      doneCheck[i].checked = true;
     }
     else{
-      listCheck[i].checked = false;
+      doneCheck[i].checked = false;
     }
-    console.log("listCheck[i].checked : " + listCheck[i].checked);
-  }
- });
+    // doneCheck[i].addEventListener('change', (event) => {
+    //   const value = event.target.checked;
+    //   console.log(value);
+    //   if (value) {
+    //     //db에 update
+    //   }
+    // });
+  }});
+
   const modal = document.getElementById("input_modal");
   const openModalBtn = document.getElementById("plus");
   const closeModalBtn = document.getElementById("input_close");
@@ -235,15 +240,7 @@
   }
 
   const doneCheck = document.getElementsByName("done_check");
-  doneCheck.forEach(function (value) {
-    value.addEventListener('change', (event) => {
-      const value = event.target.checked;
-      console.log(value);
-      if (value) {
-        //db에 update
-      }
-    });
-  });
+  
 
   
 

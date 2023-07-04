@@ -21,6 +21,9 @@ app.get('/', (req, res) => {
     db_conn.query('SELECT * FROM LIST', (err, rows) => {
         if(err) throw err;
         res.render("home.ejs", {rows:rows});            //rows 변수 안에 rows를 담아서 home.ejs로 전달
+        // rows.forEach(function(value){
+        //     console.log(value.DONE);
+        // })
     })
 });
 
