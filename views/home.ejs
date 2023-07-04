@@ -69,11 +69,11 @@
       display: flex;
     }
 
-    input[name="done_check"] {
+    input[type=checkbox] {
       display: none;
     }
 
-    input[name="done_check"] + label{
+    input[type=checkbox] + label{
       width: 50px;
       height: 50px;
       border-radius: 12px;
@@ -81,7 +81,7 @@
       display: inline-block;
     }
 
-    input[name="done_check"]:checked + label  {
+    input[type=checkbox]:checked + label  {
       background-color: rgb(0, 142, 250);
     }
 
@@ -196,7 +196,7 @@
       </div>
       <% for(var i=0; i < rows.length; i++) { %>
         <ul class="lists">
-          <input type="checkbox" value="<%= rows[i].DONE %>" name="done_check" id="done_check<%= i %>">
+          <input type="checkbox" value="<%= rows[i].DONE %>" class="done_check" name="done_check<%= i %>" id="done_check<%= i %>">
           <label for="done_check<%= i %>"></label>
             <div class="content">
               <%= rows[i].CONTENT %>
@@ -209,10 +209,9 @@
 </body>
 <script>
   $(document).ready(function () {
-    var doneCheck = $("input[name=done_check]");
+    var doneCheck = $("input[type=checkbox]");
     for (var i = 0; i < doneCheck.length; i++) {
       if (doneCheck[i].value === "1") {
-        console.log("is true");
         doneCheck[i].checked = true;
       }
       else {
@@ -232,8 +231,12 @@
     modal.style.display = "none";
   }
 
-
-
+  const doneCheckboxs = $("input[type=checkbox]");
+  for(var i = 0; i < doneCheckboxs.length; i++){
+    doneCheckboxs[i].addEventListener("change", e =>{  
+      console.log(e.target.id);
+    });
+  }
 </script>
 
 </html>
