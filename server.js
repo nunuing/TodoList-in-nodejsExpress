@@ -38,7 +38,7 @@ app.post('/create', (req, res) => {
         console.log(rows);
     });
 
-    res.write("<script>alert('success')</script>");
+    //res.write("<script>alert('success')</script>");
     res.write("<script>window.location=\"/\"</script>");
 });
 
@@ -55,7 +55,7 @@ app.post('/edit', (req, res) => {
         console.log(rows);
     });
     
-    res.write("<script>alert('success')</script>");
+    //res.write("<script>alert('success')</script>");
     res.write("<script>window.location=\"/\"</script>");
 });
 
