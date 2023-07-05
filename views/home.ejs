@@ -103,7 +103,7 @@
       margin-top: 10px;
     }
 
-    #input_modal {
+    #input_modal, #edit_modal {
       display: none;
       position: fixed;
       z-index: 1;
@@ -118,7 +118,7 @@
       height: 30%;
     }
 
-    .add_list_title {
+    .add_list_title, .edit_list_title {
       display: flex;
       margin-top: 8%;
       justify-content: center;
@@ -129,13 +129,13 @@
       color: gray;
     }
 
-    .todo_inputs {
+    .todo_inputs, .todo_edit {
       display: flex;
       justify-content: center;
       margin-top: 2%;
     }
 
-    #input_content {
+    #input_content, #edit_content {
       width: 60%;
       height: 30%;
       padding: 15px;
@@ -147,10 +147,13 @@
       border: 3px dashed rgb(0, 142, 250);
       border-radius: 10px;
       margin-right: 30px;
+      text-align: left;
     }
 
     #input_close,
-    #input_submit {
+    #input_submit,
+    #edit_close,
+    #edit_submit {
       color: gray;
       background-color: transparent;
       font-size: 25px;
@@ -162,7 +165,11 @@
     #input_close:hover,
     #input_close:focus,
     #input_submit:hover,
-    #input_submit:focus {
+    #input_submit:focus,
+    #edit_close:hover,
+    #edit_close:focus,
+    #edit_submit:hover,
+    #edit_submit:focus {
       color: rgb(0, 142, 250);
       text-decoration: none;
       cursor: pointer;
@@ -180,23 +187,37 @@
     <div class="ListRect">
       <div>
         <br>
-        <a class="button" id="plus" onclick="openModal()">+</a>
+        <a class="button" id="plus" onclick="openInputModal()">+</a>
         <a class="button" id="minus">-</a>
       </div>
       <div id="input_modal">
-        <span class="add_list_title">Add New List!</span>
+        <span class="add_list_title">[ New List ]</span>
         <form method="post" action="/create">
           <p class="todo_inputs">
             <input type="text" id="input_content" name="content">
           </p>
           <p style="text-align: center;">
-            <input id="input_submit" type="submit" value="add">
-            <input id="input_close" type="reset" value="cancle" onclick="closeModal()">
+            <input id="input_submit" type="submit" value="ADD">
+            <input id="input_close" type="reset" value="CANCLE" onclick="closeInputModal()">
+          </p>
+        </form>
+      </div>
+      <div id="edit_modal">
+        <span class="edit_list_title">[ Edit List ]</span>
+        <form method="post" action="/edit">
+          <p class="todo_edit">
+            <input type="text" id="edit_num" name="num" style="display: none;">
+            <input type="text" id="edit_content" name="content">
+          </p>
+          <p style="text-align: center;">
+            <input id="edit_submit" type="submit" value="EDIT">
+            <input id="edit_close" type="reset" value="CANCLE" onclick="closeEditModal()">
           </p>
         </form>
       </div>
       <% for(var i=0; i < rows.length; i++) { %>
         <ul class="lists" id="todo_list<%= i %>">
+          <span id="idx<%= i %>" style="display: none;"><%= rows[i].NUM %></span>
           <input type="checkbox" value="<%= rows[i].DONE %>" class="done_check" name="done_check<%= i %>" id="done_check<%= i %>">
           <label for="done_check<%= i %>"></label>
             <div class="content" id="content<%= i %>" name="content">
@@ -221,15 +242,17 @@
     }
   });
   
-  const modal = document.getElementById("input_modal");
-  const openModalBtn = document.getElementById("plus");
-  const closeModalBtn = document.getElementById("input_close");
+  const input_modal = document.getElementById("input_modal");
+  const edit_modal = document.getElementById("edit_modal")
   
-  function openModal() {
-    modal.style.display = "block";
+  function openInputModal() {
+    input_modal.style.display = "block";
   }
-  function closeModal() {
-    modal.style.display = "none";
+  function closeInputModal() {
+    input_modal.style.display = "none";
+  }
+  function closeEditModal(){
+    edit_modal.style.display = "none";
   }
 
   const todoLists = $(".lists");
@@ -252,10 +275,19 @@
 
   const editBtns = $(".edit");
   for(let i = 0; i < editBtns.length; i++){
-    editBtns[i].addEventListener("click", e =>{
-      console.log(e.target.id + " is clicked!");
+    editBtns[i].addEventListener("click", e => {
+      let edited_num = $("#idx" + i).text();
+      let edited_text = $("#content"+i).text().trim();
+
+      $("#edit_num").val(edited_num);
+      $("#edit_content").val(edited_text);
+
+      console.log($('#edit_num').val());
+      console.log($('#edit_content').val());
+      edit_modal.style.display = "block";
     });
   }
+
 </script>
 
 </html>
