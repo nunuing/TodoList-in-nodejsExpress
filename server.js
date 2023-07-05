@@ -27,17 +27,34 @@ app.get('/', (req, res) => {
 //리스트 추가
 app.post('/create', (req, res) => {
 
-    const content = req.body.content;
-    const done = 0;
-    const sql = 'INSERT INTO LIST (CONTENT, DONE) VALUES (?, ?)';
+    let content = req.body.content;
+    let done = 0;
+    let sql = 'INSERT INTO LIST (CONTENT, DONE) VALUES (?, ?)';
 
-    const params = [content, done];
+    let params = [content, done];
 
     db_conn.query(sql, params, (err, rows, fields) => {
         if(err) throw err;
         console.log(rows);
     });
 
+    res.write("<script>alert('success')</script>");
+    res.write("<script>window.location=\"/\"</script>");
+});
+
+//update
+app.post('/edit', (req, res) => {
+    let num = req.body.num;
+    let content = req.body.content;
+    let sql = 'UPDATE LIST SET CONTENT = (?) WHERE NUM = (?);';
+
+    let params = [content, num];
+
+    db_conn.query(sql, params, (err, rows, fields) => {
+        if(err) throw err;
+        console.log(rows);
+    });
+    
     res.write("<script>alert('success')</script>");
     res.write("<script>window.location=\"/\"</script>");
 });
