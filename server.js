@@ -76,6 +76,22 @@ app.post('/done_check', (req, res) => {
     res.write("<script>window.location=\"/\"</script>")
 });
 
+//delete
+app.post('/delete', (req, res) => {
+    let num = req.body.num;
+
+    let params = [num];
+    let sql = 'DELETE FROM LIST WHERE NUM = (?);';
+
+    db_conn.query(sql, params, (err, rows, fields) => {
+        if(err) throw err;
+        console.log(rows);
+    });
+    
+    
+    res.write("<script>window.location=\"/\"</script>")
+});
+
 app.listen(port, () => {
     console.log(`server is listening at localhost:${process.env.PORT}`);
 });
