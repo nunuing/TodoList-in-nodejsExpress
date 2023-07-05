@@ -59,6 +59,23 @@ app.post('/edit', (req, res) => {
     res.write("<script>window.location=\"/\"</script>");
 });
 
+//done check
+app.post('/done_check', (req, res) => {
+    let num = req.body.num;
+    let done = req.body.done == "true" ? 1 : 0;
+
+    let params = [done, num];
+    let sql = 'UPDATE LIST SET DONE = (?) WHERE NUM = (?);';
+
+    db_conn.query(sql, params, (err, rows, fields) => {
+        if(err) throw err;
+        console.log(rows);
+    });
+    
+    //res.write("<script>alert('success')</script>");
+    res.write("<script>window.location=\"/\"</script>")
+});
+
 app.listen(port, () => {
     console.log(`server is listening at localhost:${process.env.PORT}`);
 });

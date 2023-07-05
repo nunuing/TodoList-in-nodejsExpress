@@ -73,7 +73,7 @@
       display: none;
     }
 
-    input[type=checkbox] + label{
+    input[type=checkbox]+label {
       width: 50px;
       height: 50px;
       border-radius: 12px;
@@ -81,7 +81,7 @@
       display: inline-block;
     }
 
-    input[type=checkbox]:checked + label  {
+    input[type=checkbox]:checked+label {
       background-color: rgb(0, 142, 250);
     }
 
@@ -103,7 +103,8 @@
       margin-top: 10px;
     }
 
-    #input_modal, #edit_modal {
+    #input_modal,
+    #edit_modal {
       display: none;
       position: fixed;
       z-index: 1;
@@ -118,7 +119,8 @@
       height: 30%;
     }
 
-    .add_list_title, .edit_list_title {
+    .add_list_title,
+    .edit_list_title {
       display: flex;
       margin-top: 8%;
       justify-content: center;
@@ -129,13 +131,15 @@
       color: gray;
     }
 
-    .todo_inputs, .todo_edit {
+    .todo_inputs,
+    .todo_edit {
       display: flex;
       justify-content: center;
       margin-top: 2%;
     }
 
-    #input_content, #edit_content {
+    #input_content,
+    #edit_content {
       width: 60%;
       height: 30%;
       padding: 15px;
@@ -217,20 +221,34 @@
       </div>
       <% for(var i=0; i < rows.length; i++) { %>
         <ul class="lists" id="todo_list<%= i %>">
-          <span id="idx<%= i %>" style="display: none;"><%= rows[i].NUM %></span>
-          <input type="checkbox" value="<%= rows[i].DONE %>" class="done_check" name="done_check<%= i %>" id="done_check<%= i %>">
+          <span id="idx<%= i %>" style="display: none;">
+            <%= rows[i].NUM %>
+          </span>
+          <input type="checkbox" value="<%= rows[i].DONE %>" class="done_check" name="done_check<%= i %>"
+            id="done_check<%= i %>">
           <label for="done_check<%= i %>"></label>
-            <div class="content" id="content<%= i %>" name="content">
-              <%= rows[i].CONTENT %>
-            </div>
-            <img class="edit" id="edit_btn<%= i %>" style="visibility: hidden;" src="images/pencil.png" alt="edit button">
+          <div class="content" id="content<%= i %>" name="content">
+            <%= rows[i].CONTENT %>
+          </div>
+          <img class="edit" id="edit_btn<%= i %>" style="visibility: hidden;" src="images/pencil.png" alt="edit button">
         </ul>
         <% } %>
     </div>
   </div>
 </body>
 <script>
+  let scrollHeight = 0;
+  addEventListener('scroll', (event) => {
+    scrollHeight = $(document).scrollTop();
+    sessionStorage.setItem("scrollY", scrollHeight);
+  });
+  
   $(document).ready(function () {
+    const scrollY = parseInt(sessionStorage.getItem("scrollY"));
+    if(scrollY && scrollY > 0){
+        window.scrollTo(0, scrollY);
+    }
+    
     var doneCheck = $("input[type=checkbox]");
     for (var i = 0; i < doneCheck.length; i++) {
       if (doneCheck[i].value === "1") {
@@ -241,62 +259,64 @@
       }
     }
   });
-  
+
   const input_modal = document.getElementById("input_modal");
   const edit_modal = document.getElementById("edit_modal")
-  
+
   function openInputModal() {
     input_modal.style.display = "block";
   }
   function closeInputModal() {
     input_modal.style.display = "none";
   }
-  function closeEditModal(){
+  function closeEditModal() {
     edit_modal.style.display = "none";
   }
 
   const todoLists = $(".lists");
-  for(let i = 0; i < todoLists.length; i++){
-    todoLists[i].addEventListener("mouseover", e =>{
+  for (let i = 0; i < todoLists.length; i++) {
+    todoLists[i].addEventListener("mouseover", e => {
       let bnt_id = "edit_btn" + i;
-      $('#'+bnt_id).css('visibility', 'visible');
+      $('#' + bnt_id).css('visibility', 'visible');
     });
-    todoLists[i].addEventListener("mouseout", e =>{
+    todoLists[i].addEventListener("mouseout", e => {
       let bnt_id = "edit_btn" + i;
-      $('#'+bnt_id).css('visibility', 'hidden');
+      $('#' + bnt_id).css('visibility', 'hidden');
     });
   }
   const doneCheckboxs = $("input[type=checkbox]");
-  for(let i = 0; i < doneCheckboxs.length; i++){
-    doneCheckboxs[i].addEventListener("change", e =>{
+  for (let i = 0; i < doneCheckboxs.length; i++) {
+    doneCheckboxs[i].addEventListener("change", e => {
       let checked_num = $("#idx" + i).text();
-      console.log(checked_num);  
+      console.log(checked_num);
       console.log(e.target.id + " checked");
 
       let form = document.createElement("form");
       form.setAttribute("method", "post");
       form.setAttribute("action", "/done_check");
-      
+
       let hiddenNum = document.createElement("input");
       hiddenNum.setAttribute("name", "num");
       hiddenNum.setAttribute("value", checked_num);
 
       let hiddenCheck = document.createElement("input");
-      hiddenCheck.setAttribute("type", "checkbox");
+
       hiddenCheck.setAttribute("name", "done");
-      hiddenCheck.setAttribute("checked", e.target.checked);
+      hiddenCheck.setAttribute("value", e.target.checked);
 
-      form.appendChild(hiddenNum, hiddenCheck);
+      form.appendChild(hiddenNum);
+      form.appendChild(hiddenCheck);
 
+      document.body.appendChild(form);
       form.submit();
     });
   }
 
   const editBtns = $(".edit");
-  for(let i = 0; i < editBtns.length; i++){
+  for (let i = 0; i < editBtns.length; i++) {
     editBtns[i].addEventListener("click", e => {
       let edited_num = $("#idx" + i).text();
-      let edited_text = $("#content"+i).text().trim();
+      let edited_text = $("#content" + i).text().trim();
 
       $("#edit_num").val(edited_num);
       $("#edit_content").val(edited_text);
@@ -306,7 +326,7 @@
       edit_modal.style.display = "block";
     });
   }
-  
+
 
 </script>
 
