@@ -268,8 +268,27 @@
   }
   const doneCheckboxs = $("input[type=checkbox]");
   for(let i = 0; i < doneCheckboxs.length; i++){
-    doneCheckboxs[i].addEventListener("change", e =>{  
-      console.log(e.target.id);
+    doneCheckboxs[i].addEventListener("change", e =>{
+      let checked_num = $("#idx" + i).text();
+      console.log(checked_num);  
+      console.log(e.target.id + " checked");
+
+      let form = document.createElement("form");
+      form.setAttribute("method", "post");
+      form.setAttribute("action", "/done_check");
+      
+      let hiddenNum = document.createElement("input");
+      hiddenNum.setAttribute("name", "num");
+      hiddenNum.setAttribute("value", checked_num);
+
+      let hiddenCheck = document.createElement("input");
+      hiddenCheck.setAttribute("type", "checkbox");
+      hiddenCheck.setAttribute("name", "done");
+      hiddenCheck.setAttribute("checked", e.target.checked);
+
+      form.appendChild(hiddenNum, hiddenCheck);
+
+      form.submit();
     });
   }
 
@@ -287,6 +306,7 @@
       edit_modal.style.display = "block";
     });
   }
+  
 
 </script>
 
