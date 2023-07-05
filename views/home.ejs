@@ -88,7 +88,7 @@
     .content {
       margin-top: 8px;
       margin-left: 20px;
-      width: 727px;
+      width: 700px;
       font-family: IBMPlexSans;
       font-size: 40px;
       font-weight: 600;
@@ -97,10 +97,14 @@
       vertical-align: middle;
     }
 
-    .edit {
+    .edit, .delete {
       width: 40px;
       height: 40px;
       margin-top: 10px;
+    }
+    
+    .delete {
+      margin-left: 20px;
     }
 
     #input_modal,
@@ -231,6 +235,7 @@
             <%= rows[i].CONTENT %>
           </div>
           <img class="edit" id="edit_btn<%= i %>" style="visibility: hidden;" src="images/pencil.png" alt="edit button">
+          <img class="delete" id="delete_btn<%= i %>" style="visibility: hidden;" src="images/delete.png" alt="delete button">
         </ul>
         <% } %>
     </div>
@@ -276,20 +281,26 @@
   const todoLists = $(".lists");
   for (let i = 0; i < todoLists.length; i++) {
     todoLists[i].addEventListener("mouseover", e => {
-      let bnt_id = "edit_btn" + i;
-      $('#' + bnt_id).css('visibility', 'visible');
+      let edit_btn_id = "edit_btn" + i;
+      let delete_btn_id = "delete_btn" + i;
+      
+      $('#' + edit_btn_id).css('visibility', 'visible');
+      $('#' + delete_btn_id).css('visibility', 'visible');
     });
+
     todoLists[i].addEventListener("mouseout", e => {
-      let bnt_id = "edit_btn" + i;
-      $('#' + bnt_id).css('visibility', 'hidden');
+      let edit_btn_id = "edit_btn" + i;
+      let delete_btn_id = "delete_btn" + i;
+
+      $('#' + edit_btn_id).css('visibility', 'hidden');
+      $('#' + delete_btn_id).css('visibility', 'hidden');
     });
   }
+
   const doneCheckboxs = $("input[type=checkbox]");
   for (let i = 0; i < doneCheckboxs.length; i++) {
     doneCheckboxs[i].addEventListener("change", e => {
       let checked_num = $("#idx" + i).text();
-      console.log(checked_num);
-      console.log(e.target.id + " checked");
 
       let form = document.createElement("form");
       form.setAttribute("method", "post");
@@ -315,18 +326,36 @@
   const editBtns = $(".edit");
   for (let i = 0; i < editBtns.length; i++) {
     editBtns[i].addEventListener("click", e => {
-      let edited_num = $("#idx" + i).text();
+      let edited_num = $("#idx" + i).text().trim();
       let edited_text = $("#content" + i).text().trim();
 
       $("#edit_num").val(edited_num);
       $("#edit_content").val(edited_text);
 
-      console.log($('#edit_num').val());
-      console.log($('#edit_content').val());
       edit_modal.style.display = "block";
     });
   }
 
+  const deleteBtns = $(".delete");
+  for (let i = 0; i < deleteBtns.length; i++) {
+    deleteBtns[i].addEventListener("click", e => {
+      let deleted_num = $("#idx" + i).text().trim();
+      console.log(deleted_num);
+
+      let form = document.createElement("form");
+      form.setAttribute("method", "post");
+      form.setAttribute("action", "/delete");
+
+      let hiddenNum = document.createElement("input");
+      hiddenNum.setAttribute("name", "num");
+      hiddenNum.setAttribute("value", deleted_num);
+
+      form.appendChild(hiddenNum);
+
+      document.body.appendChild(form);
+      form.submit();
+    });
+  }
 
 </script>
 
