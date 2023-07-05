@@ -100,6 +100,7 @@
     .edit {
       width: 40px;
       height: 40px;
+      margin-top: 10px;
     }
 
     #input_modal {
@@ -195,13 +196,13 @@
         </form>
       </div>
       <% for(var i=0; i < rows.length; i++) { %>
-        <ul class="lists">
+        <ul class="lists" id="todo_list<%= i %>">
           <input type="checkbox" value="<%= rows[i].DONE %>" class="done_check" name="done_check<%= i %>" id="done_check<%= i %>">
           <label for="done_check<%= i %>"></label>
-            <div class="content">
+            <div class="content" id="content<%= i %>" name="content">
               <%= rows[i].CONTENT %>
             </div>
-            <img class="edit" src="images/pencil.png" alt="edit button">
+            <img class="edit" id="edit_btn<%= i %>" style="visibility: hidden;" src="images/pencil.png" alt="edit button">
         </ul>
         <% } %>
     </div>
@@ -231,10 +232,28 @@
     modal.style.display = "none";
   }
 
+  const todoLists = $(".lists");
+  for(let i = 0; i < todoLists.length; i++){
+    todoLists[i].addEventListener("mouseover", e =>{
+      let bnt_id = "edit_btn" + i;
+      $('#'+bnt_id).css('visibility', 'visible');
+    });
+    todoLists[i].addEventListener("mouseout", e =>{
+      let bnt_id = "edit_btn" + i;
+      $('#'+bnt_id).css('visibility', 'hidden');
+    });
+  }
   const doneCheckboxs = $("input[type=checkbox]");
-  for(var i = 0; i < doneCheckboxs.length; i++){
+  for(let i = 0; i < doneCheckboxs.length; i++){
     doneCheckboxs[i].addEventListener("change", e =>{  
       console.log(e.target.id);
+    });
+  }
+
+  const editBtns = $(".edit");
+  for(let i = 0; i < editBtns.length; i++){
+    editBtns[i].addEventListener("click", e =>{
+      console.log(e.target.id + " is clicked!");
     });
   }
 </script>
